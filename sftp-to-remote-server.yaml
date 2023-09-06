@@ -1,0 +1,68 @@
+---
+- name: SFTP to remote server
+  hosts: sv.dev01.alleskolan.eu
+  become: no  # Assuming no privileged escalation required for scp
+
+  vars_files:
+    - credentials.yml
+
+  vars:
+    file_pattern: "*.txt"  # Specify your file name pattern here
+    remote_destination: /home/ansible/sftp/to_raindance/tmp/  # Specify your remote destination directory
+    new_directory: /home/ansible/sftp/to_raindance/  # Specify the directory where files will be moved
+    error_log_file: /files/raindance/log/error_log.txt  # Specify the path to the error log file
+
+  tasks:
+    - name: Find files matching the pattern on the local machine
+      find:
+        paths: /files/raindance/to_raindance/
+        patterns: "{{ file_pattern }}"
+      register: local_files
+
+    - name: Copy files to the remote server using scp
+      expect:
+        command: scp /files/raindance/to_raindance/{{ item.path | basename }} {{ server_username }}@{{ inventory_hostname }}:{{ remote_destination }}
+        responses:
+          "password": "{{ server_password }}"
+      with_items: "{{ local_files.files }}"
+      register: scp_result
+
+    - name: Handle errors if scp fails
+      block:
+        - name: Check if scp was successful
+          fail:
+            msg: "SCP operation failed"
+          when: scp_result.failed
+
+        - name: Notify success
+          debug:
+            msg: "Files copied successfully to the remote server using scp"
+          when: not scp_result.failed
+
+        - name: Move files on the remote server if scp was successful
+          ansible.builtin.shell: mv "{{ remote_destination }}/{{ item.item.path | basename }}" "{{ new_directory }}"
+          with_items: "{{ scp_result.results }}"
+          when: not scp_result.failed
+
+      rescue:
+        - name: Handle errors and log to file
+          ansible.builtin.debug:
+            msg: "An error occurred during the scp operation: {{ scp_result.results | map(attribute='stdout_lines') | list }}"
+          register: error_message
+
+        - name: Log errors to file
+          ansible.builtin.lineinfile:
+            path: "{{ error_log_file }}"
+            line: "{{ ansible_date_time.iso8601 }} - {{ error_message.msg }}"
+          when: scp_result.failed
+
+        - name: Send email on error
+          mail:
+            subject: "Error in Ansible Playbook"
+            body: "An error occurred during the scp operation: {{ error_message.msg }}"
+            to: your_email@example.com
+            from: ansible@example.com
+            server: your_smtp_server
+            username: your_smtp_username
+            password: your_smtp_password
+          when: scp_result.failed
