@@ -3,8 +3,8 @@
   hosts: sv.dev01.alleskolan.eu
   become: no  # Assuming no privileged escalation required for scp
 
-  vars_files:
-    - credentials.yml
+  # vars_files:
+  #   - credentials.yml
 
   vars:
     file_pattern: "*.txt"  # Specify your file name pattern here
@@ -21,9 +21,9 @@
 
     - name: Copy files to the remote server using scp
       expect:
-        command: scp /files/raindance/to_raindance/{{ item.path | basename }} {{ server_username }}@{{ inventory_hostname }}:{{ remote_destination }}
+        command: scp /files/raindance/to_raindance/{{ item.path | basename }} ansible@sv-dev01.alleskolan.eu:{{ remote_destination }}
         responses:
-          "password": "{{ server_password }}"
+          "password": "Kanonsommar18#"
       with_items: "{{ local_files.files }}"
       register: scp_result
 
