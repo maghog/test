@@ -10,7 +10,7 @@
     file_pattern: "*.txt"  # Specify your file name pattern here
     remote_destination: /home/ansible/sftp/to_raindance/tmp/  # Specify your remote destination directory
     new_directory: /home/ansible/sftp/to_raindance/  # Specify the directory where files will be moved
-    error_log_file: /files/raindance/log/error_log.txt  # Specify the path to the error log file
+    error_log_file: /home/ansible/ansiblesemaphore/files/raindance/log/error_log.txt  # Specify the path to the error log file
 
   tasks:
     - name: Find files matching the pattern on the local machine
@@ -21,7 +21,7 @@
 
     - name: Copy files to the remote server using scp
       expect:
-        command: scp /files/raindance/to_raindance/{{ item.path | basename }} {{ server_username }}@sv-dev01.alleskolan.eu:{{ remote_destination }}
+        command: scp /home/ansible/ansiblesemaphore/files/raindance/to_raindance/{{ item.path | basename }} {{ server_username }}@sv-dev01.alleskolan.eu:{{ remote_destination }}
         responses:
           "password": "{{ server_password }}"
       with_items: "{{ local_files.files }}"
