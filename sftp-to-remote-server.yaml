@@ -15,7 +15,7 @@
   tasks:
     - name: Find files matching the pattern on the local machine
       find:
-        paths: /files/raindance/to_raindance/
+        paths: /home/ansible/ansiblesemaphore/files/raindance/to_raindance/
         patterns: "{{ file_pattern }}"
       register: local_files
 
