@@ -8,8 +8,8 @@
 
   vars:
     file_pattern: "*.txt"  # Specify your file name pattern here
-    remote_destination: /home/ansible/sftp/to_raindance/tmp/  # Specify your remote destination directory
-    new_directory: /home/ansible/sftp/to_raindance/  # Specify the directory where files will be moved
+    remote_destination: /home/ansible/sftp/to_raindance/400/tmp/  # Specify your remote destination directory
+    new_directory: /home/ansible/sftp/to_raindance/400/  # Specify the directory where files will be moved
     error_log_file: /home/ansible/ansiblesemaphore/files/raindance/log/error_log.txt  # Specify the path to the error log file
 
   tasks:
