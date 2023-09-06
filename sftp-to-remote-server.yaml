@@ -1,6 +1,6 @@
 ---
 - name: SFTP to remote server
-  hosts: sv.dev01.alleskolan.eu
+  hosts: all
   become: no  # Assuming no privileged escalation required for scp
 
   # vars_files:
