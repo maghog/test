@@ -21,9 +21,9 @@
 
     - name: Copy files to the remote server using scp
       expect:
-        command: scp /files/raindance/to_raindance/{{ item.path | basename }} ansible@sv-dev01.alleskolan.eu:{{ remote_destination }}
+        command: scp /files/raindance/to_raindance/{{ item.path | basename }} {{ server_username }}@sv-dev01.alleskolan.eu:{{ remote_destination }}
         responses:
-          "password": "Kanonsommar18#"
+          "password": "{{ server_password }}"
       with_items: "{{ local_files.files }}"
       register: scp_result
 
