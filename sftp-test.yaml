@@ -11,7 +11,8 @@
   tasks:
     - name: Copy files using SCP with expect
       expect:
-        command: scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -r {{ source_files | join(' ') }} {{ server_username }}@{{ remote_hostname }}:{{ remote_destination }}
+        command: scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -r {{ source_files }} {{ server_username }}@{{ remote_hostname }}:{{ remote_destination }}
+        #command: scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -r {{ source_files | join(' ') }} {{ server_username }}@{{ remote_hostname }}:{{ remote_destination }}
         responses:
           "password: ": "{{ server_password }}"
       register: scp_result
