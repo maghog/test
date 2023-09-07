@@ -1,6 +1,6 @@
 ---
 - name: Copy files to remote server using SCP
-  hosts: all
+  hosts: ansible.alleskolan.eu
   gather_facts: no
   vars:
     remote_destination: /home/ansible/sftp/to_raindance/400/tmp/  # Specify your remote destination directory
