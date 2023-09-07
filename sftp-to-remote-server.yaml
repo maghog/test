@@ -11,7 +11,8 @@
     remote_destination: /home/ansible/sftp/to_raindance/400/tmp/  # Specify your remote destination directory
     new_directory: /home/ansible/sftp/to_raindance/400/  # Specify the directory where files will be moved
     error_log_file: /home/ansible/ansiblesemaphore/files/raindance/log/error_log.txt  # Specify the path to the error log file
-
+    source_files: /home/ansible/ansiblesemaphore/files/raindance/to_raindance/ # Specify path to local files
+    
   tasks:
     - name: Find files matching the pattern on the local machine
       find:
@@ -22,7 +23,7 @@
     - name: Copy files to the remote server using scp
       expect:
         #command: scp /home/ansible/ansiblesemaphore/files/raindance/to_raindance/{{ item.path | basename }} {{ server_username }}@sv-dev01.alleskolan.eu:{{ remote_destination }}
-        command: scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null /home/ansible/ansiblesemaphore/files/raindance/to_raindance/{{ item.path | basename }} {{ server_username }}@sv-dev01.alleskolan.eu:{{ remote_destination }}
+        command: scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null {{ source_files }}{{ item.path | basename }} {{ server_username }}@sv-dev01.alleskolan.eu:{{ remote_destination }}
         #command: scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -r {{ source_files | join(' ') }} {{ remote_username }}@{{ inventory_hostname }}:{{ remote_directory }}
         responses:
           "password": "{{ server_password }}"
