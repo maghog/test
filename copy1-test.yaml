@@ -1,0 +1,11 @@
+- name: Copy multiple files to remote server
+  hosts: rd
+  gather_facts: no
+  tasks:
+    - name: Copy files
+      copy:
+        src: "{{ item }}"
+        dest: "/to_raindance/400/tmp/"
+      with_items:
+        - /files/raindance/to_raindance/test1.txt
+        - /files/raindance/to_raindance/test2.txt
