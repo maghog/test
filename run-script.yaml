@@ -1,6 +1,6 @@
 ---
 - name: Run Bash Script Locally
-  hosts: localhost
+  hosts: local
   connection: local
 
   tasks:
