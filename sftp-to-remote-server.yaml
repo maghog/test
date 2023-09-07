@@ -21,7 +21,9 @@
 
     - name: Copy files to the remote server using scp
       expect:
-        command: scp /home/ansible/ansiblesemaphore/files/raindance/to_raindance/{{ item.path | basename }} {{ server_username }}@sv-dev01.alleskolan.eu:{{ remote_destination }}
+        #command: scp /home/ansible/ansiblesemaphore/files/raindance/to_raindance/{{ item.path | basename }} {{ server_username }}@sv-dev01.alleskolan.eu:{{ remote_destination }}
+        command: scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null /home/ansible/ansiblesemaphore/files/raindance/to_raindance/{{ item.path | basename }} {{ server_username }}@sv-dev01.alleskolan.eu:{{ remote_destination }}
+        #command: scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -r {{ source_files | join(' ') }} {{ remote_username }}@{{ inventory_hostname }}:{{ remote_directory }}
         responses:
           "password": "{{ server_password }}"
       with_items: "{{ local_files.files }}"
