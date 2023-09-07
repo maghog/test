@@ -1,6 +1,6 @@
 ---
 - name: Run Bash Script Locally
-  hosts: local
+  hosts: ubuntu
   connection: local
 
   tasks:
