@@ -1,0 +1,23 @@
+---
+- name: Copy files to remote server using SCP
+  hosts: all
+  gather_facts: no
+  vars:
+    remote_destination: /home/ansible/sftp/to_raindance/400/tmp/  # Specify your remote destination directory
+    new_directory: /home/ansible/sftp/to_raindance/400/  # Specify the directory where files will be moved
+    error_log_file: /home/ansible/ansiblesemaphore/files/raindance/log/error_log.txt  # Specify the path to the error log file
+    source_files: /home/ansible/ansiblesemaphore/files/raindance/to_raindance/test1.txt # Specify path to local files
+
+  tasks:
+    - name: Copy files using SCP with expect
+      expect:
+        command: scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -r {{ source_files | join(' ') }} {{ server_username }}@{{ remote_hostname }}:{{ remote_destination }}
+        responses:
+          "password: ": "{{ server_password }}"
+      register: scp_result
+
+    - name: Check SCP result
+      debug:
+        var: scp_result
+
+    # You can add more tasks here to perform additional actions on the remote server.
