@@ -7,6 +7,6 @@
         src: "{{ item }}"
         dest: "/home/ansible/sftp/to_raindance/400/tmp/"
       with_items:
-        - /home/ansible/ansiblesemaphore/files/raindance/to_raindance/test1.txt
-        - /home/ansible/ansiblesemaphore/files/raindance/to_raindance/test2.txt
-        - /home/ansible/ansiblesemaphore/files/raindance/to_raindance/test3.txt
+        - /files/raindance/to_raindance/test1.txt
+        - /files/raindance/to_raindance/test2.txt
+        - /files/raindance/to_raindance/test3.txt
