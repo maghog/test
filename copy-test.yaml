@@ -1,5 +1,6 @@
 - name: Copy multiple files to remote server
   hosts: svdev01
+  gather_facts: no
   tasks:
     - name: Copy files
       copy:
