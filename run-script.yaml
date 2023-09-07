@@ -1,0 +1,17 @@
+---
+- name: Run Bash Script Locally
+  hosts: localhost
+  connection: local
+
+  tasks:
+    - name: Execute the Bash script
+      command: {{ script_name }}
+      register: script_result
+      ignore_errors: yes  # Continue playbook execution even if the script fails
+
+    - name: Handle errors
+      debug:
+        msg: "The script failed with an exit code of {{ script_result.rc }}"
+      when: script_result.rc != 0
+
+    # Add more tasks if needed
