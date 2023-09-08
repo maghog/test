@@ -1,7 +1,7 @@
 ---
 - name: Run Bash Script Locally
-  hosts: localhost
-  connection: local
+  hosts: ubuntu
+  #connection: local
   gather_facts: no
 
   tasks:
