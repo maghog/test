@@ -2,6 +2,7 @@
 - name: Run Bash Script Locally
   hosts: localhost
   connection: local
+  gather_facts: no
 
   tasks:
     - name: Execute the Bash script
