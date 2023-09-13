@@ -1,0 +1,21 @@
+---
+- name: Run Bash Script Locally
+  hosts: nextcloud_dev
+  gather_facts: no
+  become: yes
+  
+  tasks:
+    - name: Execute the Bash script
+      command: /root/bin/personec_export.sh.sh
+      register: script_result
+      ignore_errors: yes  # Continue playbook execution even if the script fails
+
+    - name: Handle errors
+      debug:
+        msg: "The script failed with an exit code of {{ script_result.rc }}"
+      when: script_result.rc != 0
+
+    - name: Fail the playbook on error
+      fail:
+        msg: "The playbook has failed because the Bash script encountered an error"
+      when: script_result.rc != 0
