@@ -6,7 +6,7 @@
   
   tasks:
     - name: Execute the Bash script
-      command: /root/bin/personec_export.sh.sh
+      command: /root/bin/personec_export.sh
       register: script_result
       ignore_errors: yes  # Continue playbook execution even if the script fails
 
