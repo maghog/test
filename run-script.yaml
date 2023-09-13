@@ -1,12 +1,11 @@
 ---
-- name: Run Bash Script Locally
+- name: Personec SFTP to Raindance
   hosts: ubuntu
-  #connection: local
   gather_facts: no
 
   tasks:
-    - name: Execute the Bash script
-      command: /home/ansible/ansiblesemaphore/files/bin/sftp2remote.sh
+    - name: Execute script personec_sftp.sh
+      command: /home/ansible/ansiblesemaphore/files/bin/personec_sftp.sh
       register: script_result
       ignore_errors: yes  # Continue playbook execution even if the script fails
 
@@ -17,6 +16,6 @@
 
     - name: Fail the playbook on error
       fail:
-        msg: "The playbook has failed because the Bash script encountered an error"
+        msg: "Playbook failed because the personec_sftp.sh script encountered an error"
       when: script_result.rc != 0
 
