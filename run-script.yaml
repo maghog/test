@@ -1,6 +1,6 @@
 ---
 - name: Personec SFTP to Raindance
-  hosts: ubuntu
+  hosts: ansible
   gather_facts: no
 
   tasks:
